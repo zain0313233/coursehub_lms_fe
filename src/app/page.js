@@ -1,103 +1,198 @@
-import Image from "next/image";
+import React from "react";
+import { User, Mail, Phone, MapPin, Lock, GraduationCap, BookOpen, Eye, EyeOff, CheckCircle, AlertCircle } from 'lucide-react';
 
-export default function Home() {
+const SignUp = () => {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <form className="bg-white   w-[900px] rounded-2xl shadow-2xl shadow-gray-600">
+        <div className="w-full rounded-t-2xl bg-gradient-to-br from-gray-600 to-gray-700 p-8 text-white flex flex-col justify-center">
+            <div className="text-center">
+              <h1 className="text-3xl font-bold mb-4">CourseHub LMS</h1>
+              <p className="text-indigo-200 mb-8">Join our learning community and unlock your potential</p>
+              
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <BookOpen className="w-6 h-6 text-indigo-200" />
+                  <span>Access thousands of courses</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <GraduationCap className="w-6 h-6 text-indigo-200" />
+                  <span>Get certified by expert instructors</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <User className="w-6 h-6 text-indigo-200" />
+                  <span>Learn at your own pace</span>
+                </div>
+              </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            </div>
+          </div>
+          <h1 className="text-[30px] font-bold mt-9 mb-2 px-9">Create Account</h1>
+        <div className="mb-6 p-8 grid grid-cols-2 gap-4">
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Name
+            </label>
+            <input
+              type="text"
+              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors"
+              placeholder="Enter your name"
+              required
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <input
+              type="email"
+              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors"
+              placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Phono
+            </label>
+            <input
+              type="text"
+              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors"
+              placeholder="Enter your phone number"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Country
+            </label>
+            
+            <select className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors appearance-none bg-white">
+              <option value="">Select your country</option>
+              <option value="us">United States</option>
+              <option value="ca">Canada</option>
+              <option value="uk">United Kingdom</option>
+              <option value="au">Australia</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              City,Address
+            </label>
+            <input
+              type="text"
+              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors appearance-none bg-white"
+              placeholder="Enter your city and address"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Date of Birth
+            </label>
+            <input
+              type="date"
+              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <input
+              type="password"
+              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Confirm Password
+            </label>
+            <input
+              type="password"
+              className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-colors"
+              placeholder="Confirm your password"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              <input
+                type="checkbox"
+                className="form-checkbox h-5 w-5 text-blue-600"
+                required
+              />
+              <span className="ml-2 text-sm text-gray-700">
+                I agree to the terms and conditions
+              </span>
+            </label>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div className="px-8 mb-8">
+          <button
+          type="submit"
+          className="w-full bg-gray-600 text-white py-2 px-4  rounded hover:bg-gary-700 focus:outline-none focus:ring-2 focus:ring-gray-500"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          Sign Up
+        </button>
+        </div>
+        <div class="mt-8 space-y-4 text-center">
+          <div class="pb-4 border-b border-gray-200">
+            <p class="text-sm text-gray-600">
+              Already have an account?
+              <a
+                href="/login"
+                class="text-blue-600 hover:underline font-medium ml-1"
+              >
+                Log In
+              </a>
+            </p>
+          </div>
+
+          <div class="space-y-3">
+            <p class="text-xs text-gray-500 leading-relaxed">
+              By signing up, you agree to our
+              <a href="/terms" class="text-blue-600 hover:underline ml-1 mr-1">
+                Terms of Service
+              </a>
+              and
+              <a href="/privacy" class="text-blue-600 hover:underline ml-1">
+                Privacy Policy
+              </a>
+              .
+            </p>
+
+            <p class="text-xs text-gray-500 leading-relaxed">
+              This site is protected by reCAPTCHA and the Google
+              <a href="/privacy" class="text-blue-600 hover:underline ml-1 mr-1">
+                Privacy Policy
+              </a>
+              and
+              <a href="/terms" class="text-blue-600 hover:underline ml-1 mr-1">
+                Terms of Service
+              </a>
+              apply.
+            </p>
+          </div>
+
+          <div class="pt-4 border-t border-gray-100">
+            <p class="text-xs text-gray-400">
+              Questions? Contact us at 
+              <a
+                href="mailto:zain.ali.cs.dev@gmail.com"
+                class="text-blue-600 hover:underline ml-1"
+              >
+              zain.ali.cs.dev@gmail.com
+              </a>
+            </p>
+          </div>
+        </div>
+      </form>
     </div>
   );
-}
+};
+
+export default SignUp;
