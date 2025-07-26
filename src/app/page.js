@@ -1,21 +1,14 @@
 "use client";
-import React, { useState } from "react";
-import {
-  User,
-  GraduationCap,
-  BookOpen,
-  Upload,
-  FileText,
-  X,
-  Check
-} from "lucide-react";
+import React from "react";
 import Navbar from "@/component/Navbar";
 import Footer from "@/component/Footer";
 import Herosection from "@/component/Herosection";
 import WhyChooseUs from "@/component/WhyChooseUs";
 import ExploreCourses from "@/component/ExploreCourses";
+import PopularInstructors from "@/component/PopularInstructors";
+import ArticlesSection from "@/component/ArticlesSection";
 
-const Login = () => {
+const Main = () => {
   
 
   return (
@@ -25,10 +18,12 @@ const Login = () => {
     <Herosection />
     <WhyChooseUs />
     <ExploreCourses />
+    <PopularInstructors />
+    <ArticlesSection />
     </div>
     <Footer />
    </>
   );
 };
 
-export default Login;
+export default Main;
