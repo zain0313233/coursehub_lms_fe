@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const ExploreCourses = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const courses = [
     {
@@ -106,22 +107,25 @@ const ExploreCourses = () => {
     }
   ];
 
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % courses.length);
-    }, 2000);
+    }, 3000); 
 
     return () => clearInterval(interval);
   }, [courses.length]);
-
-  const getVisibleCourses = () => {
-    const visible = [];
-    for (let i = 0; i < 4; i++) {
-      const index = (currentIndex + i) % courses.length;
-      visible.push(courses[index]);
-    }
-    return visible;
-  };
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -159,58 +163,75 @@ const ExploreCourses = () => {
     return stars;
   };
 
+
+  const getTransform = () => {
+    if (isMobile) {
+     
+      return `translateX(-${currentIndex * 100}%)`;
+    } else {
+      
+      return `translateX(-${currentIndex * 33.333}%)`;
+    }
+  };
+
+
+  const duplicatedCourses = [...courses, ...courses, ...courses];
+
   return (
     <div className="w-full h-auto flex flex-col mb-20">
       <div className="relative w-full">
-        <div className="bg-gradient-to-br from-teal-400 via-cyan-400 to-emerald-500 w-full py-20 md:py-24 flex items-center justify-center">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl text-white font-bold text-center leading-tight">
+        <div className="bg-gradient-to-br from-teal-400 via-cyan-400 to-emerald-500 w-full py-12 sm:py-16 md:py-20 lg:py-24 flex items-center justify-center px-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white font-bold text-center leading-tight">
             Explore our <br /> popular courses
           </h1>
         </div>
         <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full">
-          <div className="w-0 h-0 border-l-[80px] border-r-[80px] border-t-[80px] border-l-transparent border-r-transparent border-t-teal-400"></div>
+          <div className="w-0 h-0 border-l-[40px] sm:border-l-[60px] md:border-l-[80px] border-r-[40px] sm:border-r-[60px] md:border-r-[80px] border-t-[40px] sm:border-t-[60px] md:border-t-[80px] border-l-transparent border-r-transparent border-t-teal-400"></div>
         </div>
       </div>
 
-      <div className="mt-40 w-full px-4 md:px-8 lg:px-16 py-10 overflow-hidden">
-        <div className="flex transition-transform duration-1000 ease-in-out" style={{ transform: `translateX(-${currentIndex * 25}%)` }}>
-          {courses.concat(courses.slice(0, 3)).map((course, index) => (
+      <div className="mt-20 sm:mt-28 md:mt-36 lg:mt-40 w-full px-2 sm:px-4 md:px-8 lg:px-16 py-6 sm:py-8 lg:py-10 overflow-hidden">
+        <div 
+          className="flex transition-transform duration-1000 ease-in-out" 
+          style={{ transform: getTransform() }}
+        >
+          {duplicatedCourses.map((course, index) => (
             <div
               key={`${course.id}-${index}`}
-              className="flex-shrink-0 w-1/3 px-3"
+              className="flex-shrink-0 w-full md:w-1/3 px-2 sm:px-3"
             >
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105 mx-auto max-w-sm md:max-w-none">
                 <img
                   src={course.image}
                   alt={course.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-40 sm:h-44 md:h-48 object-cover"
                 />
-                <div className="p-6">
-                  <div className="flex items-center text-sm text-gray-500 mb-2">
+                <div className="p-4 sm:p-5 md:p-6">
+                  <div className="flex items-center text-xs sm:text-sm text-gray-500 mb-2">
                     <span>By {course.instructor}</span>
                     <span className="mx-2">•</span>
                     <span>{formatDate(course.date)}</span>
                   </div>
                   
-                  <h2 className="text-xl font-semibold mb-2 line-clamp-2">{course.title}</h2>
-                  <p className="text-gray-600 mb-4 line-clamp-2">{course.description}</p>
+                  <h2 className="text-lg sm:text-xl font-semibold mb-2 line-clamp-2 text-gray-700">{course.title}</h2>
+                  <p className="text-sm sm:text-base text-gray-600 mb-4 line-clamp-2">{course.description}</p>
                   
                   <div className="flex items-center mb-4">
-                    <div className="flex items-center mr-2">
+                    <div className="flex items-center mr-2 text-sm sm:text-base">
                       {renderStars(course.rating)}
                     </div>
-                    <span className="text-sm font-medium text-gray-700">{course.rating}</span>
+                    <span className="text-xs sm:text-sm font-medium text-gray-700">{course.rating}</span>
                   </div>
 
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-bold text-teal-600">{course.price}</span>
+                    <span className="text-xl sm:text-2xl font-bold text-teal-600">{course.price}</span>
                   </div>
 
-                  <div className="flex gap-2">
-                    <button className="flex-1 bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded-md transition-colors duration-200 text-sm font-medium">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <button className="flex-1 bg-teal-500 hover:bg-teal-600 text-white py-2 sm:py-2.5 px-3 sm:px-4 rounded-md transition-colors duration-200 text-sm font-medium">
                       Buy Course
                     </button>
-                    <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-4 rounded-md transition-colors duration-200 text-sm font-medium">
+                    <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 sm:py-2.5 px-3 sm:px-4 rounded-md transition-colors duration-200 text-sm font-medium">
                       View Details
                     </button>
                   </div>
@@ -220,6 +241,22 @@ const ExploreCourses = () => {
           ))}
         </div>
       </div>
+
+      {isMobile && (
+        <div className="flex justify-center space-x-2 mt-4">
+          {courses.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full transition-colors duration-200 ${
+                index === currentIndex % courses.length
+                  ? 'bg-teal-500'
+                  : 'bg-gray-300'
+              }`}
+              onClick={() => setCurrentIndex(index)}
+            />
+          ))}
+        </div>
+      )}
 
       <style jsx>{`
         .line-clamp-2 {

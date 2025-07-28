@@ -7,6 +7,7 @@ import WhyChooseUs from "@/component/WhyChooseUs";
 import ExploreCourses from "@/component/ExploreCourses";
 import PopularInstructors from "@/component/PopularInstructors";
 import ArticlesSection from "@/component/ArticlesSection";
+import Contactus from "@/component/Contactus";
 
 const Main = () => {
   
@@ -14,12 +15,13 @@ const Main = () => {
   return (
    <>
    <Navbar />
-    <div className="flex flex-col items-center justify-center min-h-screen">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white">
     <Herosection />
     <WhyChooseUs />
     <ExploreCourses />
     <PopularInstructors />
     <ArticlesSection />
+    <Contactus />
     </div>
     <Footer />
    </>
