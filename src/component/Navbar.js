@@ -1,11 +1,13 @@
 "use client";
 import React, { useState} from "react";
-import { Search, Menu, X, ChevronDown, Phone, Mail, User, BookOpen } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Search, Menu, X, ChevronDown, Phone, Mail, User, BookOpen,UserRoundPen } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileDropdowns, setMobileDropdowns] = useState({});
+  const router = useRouter();
 
   const navItems = [
     { name: 'Home', href: '/', hasDropdown: false },
@@ -128,6 +130,11 @@ const Navbar = () => {
 
            
             <div className="flex items-center space-x-2 sm:space-x-4">
+              <button 
+              onClick={()=>router.push('/dashbord/student')}
+              className="p-1 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200">
+                <UserRoundPen className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer" />
+              </button>
              
               <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200">
                 <Search className="w-4 h-4 sm:w-5 sm:h-5" />
