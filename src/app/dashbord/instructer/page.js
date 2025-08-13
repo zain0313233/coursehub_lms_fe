@@ -1,6 +1,6 @@
+
 "use client";
 import React, { useState } from 'react';
-import {  Bell, Star, DollarSign, UserPlus, } from 'lucide-react';
 import CoursesSection from './CoursesSection';
 import BlogsSection from './BlogsSection';
 import AnalyticsSection from './AnalyticsSection';
@@ -10,29 +10,28 @@ import StudentsSection from './StudentsSection';
 import ProfileSection from './ProfileSection';
 import Footer from '@/component/Footer';
 import Navbar from '@/component/Navbar';
- const instructorData = {
-    name: "Dr. Amanda Rodriguez",
-    role: "Senior Web Development Instructor",
-    email: "amanda.rodriguez@university.edu",
-    phone: "+1 (555) 123-4567",
-    location: "San Francisco, CA",
-    specialization: "Full-Stack Development & UI/UX Design",
-    experience: "15 years",
-    tagline: "Empowering the next generation of developers through innovative teaching methods",
-    followers: 2847,
-    profilePicture: "https://images.unsplash.com/photo-1494790108755-2616b612b5bc?w=120&h=120&fit=crop&crop=face",
-    id: "INS789",
-    batch: "Faculty 2018",
-    status: "Active Instructor"
-  };
-const InstructorDashboard = () => {
-  
 
+const instructorData = {
+  name: "Dr. Amanda Rodriguez",
+  role: "Senior Web Development Instructor",
+  email: "amanda.rodriguez@university.edu",
+  phone: "+1 (555) 123-4567",
+  location: "San Francisco, CA",
+  specialization: "Full-Stack Development & UI/UX Design",
+  experience: "15 years",
+  tagline: "Empowering the next generation of developers through innovative teaching methods",
+  followers: 2847,
+  profilePicture: "../instructer.jpg",
+  id: "INS789",
+  batch: "Faculty 2018",
+  status: "Active Instructor"
+};
+
+const InstructorDashboard = () => {
   return (
     <>
-    <Navbar/>
+      <Navbar />
       
-
       <div className="min-h-screen bg-gray-100">
         <div className="bg-white shadow-md rounded-lg w-full h-auto">
           <div className="text-center mb-4 h-[200px] relative">
@@ -49,9 +48,10 @@ const InstructorDashboard = () => {
             </div>
           </div>
           
-          <div className="flex w-full p-6 min-h-[800px] gap-6">
+          <div className="flex w-full p-6 gap-6 items-start">
             <ProfileSection />
 
+          
             <div className="w-[70%] bg-white shadow-md rounded-lg">
               <div className="p-6 bg-gray-800 text-white rounded-t-lg">
                 <h2 className="text-2xl font-semibold">Instructor Information</h2>
@@ -130,38 +130,18 @@ const InstructorDashboard = () => {
                 <StudentsSection />
                 <AnalyticsSection />
                 <NotificationsSectiontwo />
+                
+                
+                <div className="h-8"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-    
-    <Footer/>
+      <Footer />
     </>
   );
 };
 
-export default InstructorDashboard; 
-
- 
-
-  
-
- 
-
-  
-
- 
-
- 
-
-
- 
-
- 
-
- 
-
- 
-
+export default InstructorDashboard;

@@ -1,69 +1,73 @@
+// ProfileSection.js - Replace your entire ProfileSection component with this
 "use client";
-import React, { useState } from 'react';
-import { User, Edit3, Plus, BarChart3,  PenTool } from 'lucide-react';
+import React from 'react';
+import { User, Edit3, Plus, BarChart3, PenTool } from 'lucide-react';
+
 const instructorData = {
-    name: "Dr. Amanda Rodriguez",
-    role: "Senior Web Development Instructor",
-    email: "amanda.rodriguez@university.edu",
-    phone: "+1 (555) 123-4567",
-    location: "San Francisco, CA",
-    specialization: "Full-Stack Development & UI/UX Design",
-    experience: "15 years",
-    tagline: "Empowering the next generation of developers through innovative teaching methods",
-    followers: 2847,
-    profilePicture: "../instructer.jpg",
-    id: "INS789",
-    batch: "Faculty 2018",
-    status: "Active Instructor"
-  };
-  const courses = [
-    {
-      id: 1,
-      title: "Complete React.js Bootcamp 2024",
-      code: "WD101",
-      duration: "6 Months",
-      category: "Web Development",
-      price: "$149.99",
-      thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=300&h=200&fit=crop",
-      students: 1234,
-      rating: 4.8,
-      reviews: 456,
-      status: "Active",
-      progress: 85
-    },
-    {
-      id: 2,
-      title: "Advanced JavaScript Patterns",
-      code: "JS201",
-      duration: "4 Months",
-      category: "Programming",
-      price: "$99.99",
-      thumbnail: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=300&h=200&fit=crop",
-      students: 892,
-      rating: 4.9,
-      reviews: 234,
-      status: "Active",
-      progress: 92
-    },
-    {
-      id: 3,
-      title: "UI/UX Design Fundamentals",
-      code: "UX301",
-      duration: "3 Months",
-      category: "Design",
-      price: "$79.99",
-      thumbnail: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=200&fit=crop",
-      students: 567,
-      rating: 4.7,
-      reviews: 189,
-      status: "Active",
-      progress: 78
-    }
-  ];
-  
- 
- const ProfileSection = () => (
-    <div className="w-[30%] bg-white shadow-md rounded-lg">
+  name: "Dr. Amanda Rodriguez",
+  role: "Senior Web Development Instructor",
+  email: "amanda.rodriguez@university.edu",
+  phone: "+1 (555) 123-4567",
+  location: "San Francisco, CA",
+  specialization: "Full-Stack Development & UI/UX Design",
+  experience: "15 years",
+  tagline: "Empowering the next generation of developers through innovative teaching methods",
+  followers: 2847,
+  profilePicture: "../instructer.jpg",
+  id: "INS789",
+  batch: "Faculty 2018",
+  status: "Active Instructor"
+};
+
+const courses = [
+  {
+    id: 1,
+    title: "Complete React.js Bootcamp 2024",
+    code: "WD101",
+    duration: "6 Months",
+    category: "Web Development",
+    price: "$149.99",
+    thumbnail: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=300&h=200&fit=crop",
+    students: 1234,
+    rating: 4.8,
+    reviews: 456,
+    status: "Active",
+    progress: 85
+  },
+  {
+    id: 2,
+    title: "Advanced JavaScript Patterns",
+    code: "JS201",
+    duration: "4 Months",
+    category: "Programming",
+    price: "$99.99",
+    thumbnail: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=300&h=200&fit=crop",
+    students: 892,
+    rating: 4.9,
+    reviews: 234,
+    status: "Active",
+    progress: 92
+  },
+  {
+    id: 3,
+    title: "UI/UX Design Fundamentals",
+    code: "UX301",
+    duration: "3 Months",
+    category: "Design",
+    price: "$79.99",
+    thumbnail: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&h=200&fit=crop",
+    students: 567,
+    rating: 4.7,
+    reviews: 189,
+    status: "Active",
+    progress: 78
+  }
+];
+
+const ProfileSection = () => (
+
+  <div className="w-[30%] sticky top-6 self-start">
+    <div className="bg-white shadow-md rounded-lg">
       <div className="p-6 bg-gray-800 text-white rounded-t-lg">
         <h1 className="text-2xl font-semibold text-white text-center">
           Instructor Profile
@@ -166,5 +170,7 @@ const instructorData = {
         </div>
       </div>
     </div>
-  );
-  export default ProfileSection;
+  </div>
+);
+
+export default ProfileSection;
