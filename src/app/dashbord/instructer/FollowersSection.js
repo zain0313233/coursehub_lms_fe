@@ -25,7 +25,7 @@ const followers = [
     {
       id: 2,
       name: "Maria Garcia",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b5bc?w=40&h=40&fit=crop&crop=face",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face",
       followedDate: "5 days ago"
     },
     {

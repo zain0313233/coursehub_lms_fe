@@ -53,7 +53,7 @@ const CoursesSection = () => (
           <h3 className="text-xl font-semibold mb-2 text-gray-800">My Courses</h3>
           <p className="text-sm text-gray-600">Manage and track your course performance</p>
         </div>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+        <button className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition flex items-center gap-2">
           <Plus size={16} />
           Create New Course
         </button>
@@ -77,7 +77,7 @@ const CoursesSection = () => (
                 </span>
               </div>
               <div className="absolute top-4 left-4">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-600 text-white">
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-cyan-600 text-white">
                   {course.price}
                 </span>
               </div>
@@ -108,7 +108,7 @@ const CoursesSection = () => (
               </div>
 
               <div className="flex gap-2">
-                <button className="flex-1 bg-blue-600 text-white py-2 px-3 rounded-lg hover:bg-blue-700 transition text-sm font-medium">
+                <button className="flex-1 bg-cyan-600 text-white py-2 px-3 rounded-lg hover:bg-cyan-700 transition text-sm font-medium">
                   Edit
                 </button>
                 <button className="flex-1 bg-gray-100 text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-200 transition text-sm font-medium">

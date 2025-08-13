@@ -34,7 +34,7 @@ const BlogsSection = () => (
           <h3 className="text-xl font-semibold mb-2 text-gray-800">My Blogs</h3>
           <p className="text-sm text-gray-600">Share your knowledge and insights</p>
         </div>
-        <button className="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition flex items-center gap-2">
+        <button className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition flex items-center gap-2">
           <PenTool size={16} />
           Write New Blog
         </button>
@@ -73,7 +73,7 @@ const BlogsSection = () => (
               </div>
 
               <div className="flex gap-2">
-                <button className="flex-1 bg-purple-100 text-purple-700 py-2 px-3 rounded-lg hover:bg-purple-200 transition text-sm font-medium">
+                <button className="flex-1 bg-cyan-100 text-cyan-700 py-2 px-3 rounded-lg hover:bg-cyan-200 transition text-sm font-medium">
                   Edit
                 </button>
                 <button className="flex-1 bg-gray-100 text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-200 transition text-sm font-medium">

@@ -4,7 +4,7 @@ import { MessageCircle } from 'lucide-react';
     {
       id: 1,
       name: "Emma Thompson",
-      avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b5bc?w=40&h=40&fit=crop&crop=face",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face",
       course: "Complete React.js Bootcamp",
       progress: 75,
       email: "emma.thompson@student.edu",
@@ -36,7 +36,7 @@ const StudentsSection = () => (
           <h3 className="text-xl font-semibold mb-2 text-gray-800">Student Learning Tracker</h3>
           <p className="text-sm text-gray-600">Monitor your students' progress and engagement</p>
         </div>
-        <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition flex items-center gap-2">
+        <button className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition flex items-center gap-2">
           <MessageCircle size={16} />
           Send Message to All
         </button>

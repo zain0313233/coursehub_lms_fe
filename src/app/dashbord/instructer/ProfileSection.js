@@ -11,7 +11,7 @@ const instructorData = {
     experience: "15 years",
     tagline: "Empowering the next generation of developers through innovative teaching methods",
     followers: 2847,
-    profilePicture: "https://images.unsplash.com/photo-1494790108755-2616b612b5bc?w=120&h=120&fit=crop&crop=face",
+    profilePicture: "../instructer.jpg",
     id: "INS789",
     batch: "Faculty 2018",
     status: "Active Instructor"
