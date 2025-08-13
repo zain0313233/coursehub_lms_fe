@@ -8,6 +8,7 @@ import FollowersSection from './FollowersSection';
 import NotificationsSectiontwo from './NotificationsSection';
 import StudentsSection from './StudentsSection';
 import ProfileSection from './ProfileSection';
+import DemoVideoSection from './DemoVideoSection';
 import Footer from '@/component/Footer';
 import Navbar from '@/component/Navbar';
 
@@ -128,6 +129,7 @@ const InstructorDashboard = () => {
                 <BlogsSection />
                 <FollowersSection />
                 <StudentsSection />
+                <DemoVideoSection/>
                 <AnalyticsSection />
                 <NotificationsSectiontwo />
                 
