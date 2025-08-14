@@ -15,8 +15,11 @@ import {
   Eye,
   EyeOff,
   Calendar,
-  Globe
+  Globe,
+  ArrowRight
 } from "lucide-react";
+const axios = require("axios");
+import { useRouter } from "next/navigation";
 
 const SignUp = () => {
   const [selectedRole, setSelectedRole] = useState("student");
@@ -24,10 +27,98 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState({});
   const [uploadStatus, setUploadStatus] = useState("idle");
+  const [formData, setformData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    country: "",
+    address: "",
+    dateOfBirth: "",
+    password: "",
+    role: "student",
+    educationLevel: "",
+    learningGoals: "",
+    bio: "",
+    experience: "",
+    subjects: "",
+  });
+  const router = useRouter();
+
+  const handleinputChange = (e) => {
+    const { name, value } = e.target;
+    setformData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        country: formData.country,
+        address: formData.address,
+        dateOfBirth: formData.dateOfBirth,
+        password: formData.password,
+        role: selectedRole,
+        educationLevel: formData.educationLevel,
+        bio: formData.bio
+      };
+
+      if (selectedRole === 'teacher') {
+        payload.experience = formData.experience;
+        payload.subjects = formData.subjects;
+      } else {
+        payload.learningGoals = formData.learningGoals;
+      }
+
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/signup`,
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      if (response.status !== 200 && response.status !== 201) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = response.data;
+
+      if (response.status === 201) {
+        if (data.user.role === 'student') {
+          router.push('/dashbord/student');
+        } else if (data.user.role === 'teacher') {
+          router.push('/dashbord/instructer');
+        }
+      }
+      console.log("Success:", data);
+      alert("Account created successfully!");
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while creating your account. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleRoleChange = (event) => {
-    setSelectedRole(event.target.value);
+    const newRole = event.target.value;
+    setSelectedRole(newRole);
+    setformData({
+      ...formData,
+      role: newRole
+    });
   };
 
   const handleFileChange = (file) => {
@@ -164,7 +255,10 @@ const SignUp = () => {
                       <div className="relative">
                         <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                         <input
+                        name="name"
                           type="text"
+                          value={formData.name}
+                          onChange={handleinputChange}
                           className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-gray-50 focus:bg-white"
                           placeholder="Enter your full name"
                           required
@@ -179,7 +273,10 @@ const SignUp = () => {
                       <div className="relative">
                         <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                         <input
+                        name="email"
                           type="email"
+                          value={formData.email}
+                          onChange={handleinputChange}
                           className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-gray-50 focus:bg-white"
                           placeholder="Enter your email"
                           required
@@ -196,7 +293,10 @@ const SignUp = () => {
                       <div className="relative">
                         <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                         <input
+                        name="phone"
                           type="tel"
+                          value={formData.phone}
+                          onChange={handleinputChange}
                           className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-gray-50 focus:bg-white"
                           placeholder="Enter phone number"
                           required
@@ -210,7 +310,11 @@ const SignUp = () => {
                       </label>
                       <div className="relative">
                         <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                        <select className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-gray-50 focus:bg-white appearance-none">
+                        <select 
+                        name="country"
+                        value={formData.country}
+                        onChange={handleinputChange}
+                        className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-gray-50 focus:bg-white appearance-none">
                           <option value="">Select your country</option>
                           <option value="us">United States</option>
                           <option value="ca">Canada</option>
@@ -231,6 +335,9 @@ const SignUp = () => {
                         <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                         <input
                           type="text"
+                          name="address"
+                          value={formData.address}
+                          onChange={handleinputChange}
                           className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-gray-50 focus:bg-white"
                           placeholder="Enter city and address"
                           required
@@ -245,7 +352,10 @@ const SignUp = () => {
                       <div className="relative">
                         <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                         <input
+                        name="dateOfBirth"
                           type="date"
+                          value={formData.dateOfBirth}
+                          onChange={handleinputChange}
                           className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-gray-50 focus:bg-white"
                           required
                         />
@@ -261,7 +371,10 @@ const SignUp = () => {
                       <div className="relative">
                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                         <input
+                        name="password"
                           type={showPassword ? "text" : "password"}
+                          value={formData.password}
+                          onChange={handleinputChange}
                           className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-gray-50 focus:bg-white"
                           placeholder="Create password"
                           required
@@ -283,6 +396,7 @@ const SignUp = () => {
                       <div className="relative">
                         <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                         <input
+                        name="password"
                           type={showConfirmPassword ? "text" : "password"}
                           className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-gray-50 focus:bg-white"
                           placeholder="Confirm password"
@@ -342,7 +456,11 @@ const SignUp = () => {
                           <label className="block text-sm font-semibold text-gray-700 mb-2">
                             Education Level
                           </label>
-                          <select className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white" required>
+                          <select 
+                          name="educationLevel"
+                          value={formData.educationLevel}
+                          onChange={handleinputChange}
+                          className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white" required>
                             <option value="">Select education level</option>
                             <option value="PhD">PhD</option>
                             <option value="MS">Masters</option>
@@ -355,6 +473,10 @@ const SignUp = () => {
                             Years of Experience
                           </label>
                           <input
+                          name="experience"
+                          value={formData.experience}
+                          onChange={handleinputChange}
+                          
                             type="number"
                             min="0"
                             placeholder="e.g. 5"
@@ -369,6 +491,9 @@ const SignUp = () => {
                           Subjects You Can Teach
                         </label>
                         <input
+                        name="subjects"
+                          value={formData.subjects}
+                          onChange={handleinputChange}
                           type="text"
                           placeholder="e.g. Mathematics, Physics, Computer Science"
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white"
@@ -382,6 +507,9 @@ const SignUp = () => {
                         </label>
                         <textarea
                           rows="3"
+                          name="bio"
+                          value={formData.bio}
+                          onChange={handleinputChange}
                           placeholder="Tell us about your teaching experience and passion..."
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white resize-none"
                         ></textarea>
@@ -473,7 +601,11 @@ const SignUp = () => {
                         <label className="block text-sm font-semibold text-gray-700 mb-2">
                           Current Education Level
                         </label>
-                        <select className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white" required>
+                        <select 
+                        name="educationLevel"
+                        value={formData.educationLevel}
+                          onChange={handleinputChange}
+                        className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white" required>
                           <option value="">Select your current level</option>
                           <option value="Matric">Matric</option>
                           <option value="Intermediate">Intermediate</option>
@@ -487,6 +619,9 @@ const SignUp = () => {
                           Learning Goals
                         </label>
                         <input
+                        name="learningGoals"
+                        value={formData.learningGoals}
+                          onChange={handleinputChange}
                           type="text"
                           placeholder="e.g. Prepare for CSS exam, learn Python programming"
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white"
@@ -498,6 +633,9 @@ const SignUp = () => {
                           Short Bio
                         </label>
                         <textarea
+                        name="bio"
+                        value={formData.bio}
+                          onChange={handleinputChange}
                           rows="3"
                           placeholder="Write a short introduction about yourself and your interests..."
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white resize-none"
@@ -521,10 +659,16 @@ const SignUp = () => {
                   </div>
 
                   <button
+                  
+                disabled={isSubmitting}
+                  onClick={handleSubmit}
                     type="submit"
                     className="w-full bg-gradient-to-r from-gray-700 to-gray-800 text-white font-semibold py-3 rounded-xl hover:from-gray-800 hover:to-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02] shadow-lg hover:shadow-xl"
                   >
-                    Create Account
+                   <span>
+                  {isSubmitting ? "Creating Account..." : "Create Account"}
+                </span>
+
                   </button>
                 </form>
 
