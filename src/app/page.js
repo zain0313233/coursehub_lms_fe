@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+
 import Navbar from "@/component/Navbar";
 import Footer from "@/component/Footer";
 import Herosection from "@/component/Herosection";
@@ -9,8 +9,10 @@ import PopularInstructors from "@/component/PopularInstructors";
 import ArticlesSection from "@/component/ArticlesSection";
 import Contactus from "@/component/Contactus";
 
+
+
 const Main = () => {
-  
+ 
 
   return (
    <>

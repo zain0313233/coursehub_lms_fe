@@ -4,10 +4,6 @@ import {
   User,
   GraduationCap,
   BookOpen,
-  Upload,
-  FileText,
-  X,
-  Check,
   Mail,
   Lock,
   Eye,
@@ -15,6 +11,7 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { useUser} from "../../context/UserContext";
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,6 +21,7 @@ const Login = () => {
     email: "",
     password: ""
   });
+  const { login } = useUser();
   const validator = () => {
     const newErrors = {};
 
@@ -70,7 +68,9 @@ const Login = () => {
         }
       );
 
-      if (loginresponse.status === 200) {
+      if (loginresponse.status === 200 && loginresponse.data.success ) {
+        const {user,accessToken,refreshToken}=loginresponse.data;
+        login(user,accessToken,refreshToken);
         router.push("/");
       } else {
         throw new Error("Login failed. Please check your credentials.");

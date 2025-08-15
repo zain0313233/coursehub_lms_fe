@@ -1,13 +1,20 @@
 "use client";
-import React, { useState} from "react";
+import React, { useState,useEffect} from "react";
 import { useRouter } from "next/navigation";
 import { Search, Menu, X, ChevronDown, Phone, Mail, User, BookOpen,UserRoundPen } from "lucide-react";
+import {useUser} from "../context/UserContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [mobileDropdowns, setMobileDropdowns] = useState({});
   const router = useRouter();
+  const {user,accessToken,refreshToken}=useUser();
+  useEffect(()=>{
+if(!user && !accessToken && !refreshToken){
+  router.push('/login');
+}
+  },[user,accessToken,refreshToken])
 
   const navItems = [
     { name: 'Home', href: '/', hasDropdown: false },
