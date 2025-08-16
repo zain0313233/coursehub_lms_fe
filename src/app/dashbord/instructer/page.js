@@ -90,7 +90,7 @@ const InstructorDashboard = () => {
           </div>
 
           <div className="flex w-full p-6 gap-6 items-start">
-            <ProfileSection />
+            <ProfileSection instructorData={instructorData} />
 
             <div className="w-[70%] bg-white shadow-md rounded-lg">
               <div className="p-6 bg-gray-800 text-white rounded-t-lg">

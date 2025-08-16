@@ -1,23 +1,9 @@
-// ProfileSection.js - Replace your entire ProfileSection component with this
 "use client";
 import React from 'react';
 import { User, Edit3, Plus, BarChart3, PenTool } from 'lucide-react';
 
-const instructorData = {
-  name: "Dr. Amanda Rodriguez",
-  role: "Senior Web Development Instructor",
-  email: "amanda.rodriguez@university.edu",
-  phone: "+1 (555) 123-4567",
-  location: "San Francisco, CA",
-  specialization: "Full-Stack Development & UI/UX Design",
-  experience: "15 years",
-  tagline: "Empowering the next generation of developers through innovative teaching methods",
-  followers: 2847,
-  profilePicture: "../instructer.jpg",
-  id: "INS789",
-  batch: "Faculty 2018",
-  status: "Active Instructor"
-};
+
+
 
 const courses = [
   {
@@ -64,7 +50,7 @@ const courses = [
   }
 ];
 
-const ProfileSection = () => (
+const ProfileSection = ({instructorData}) => (
 
   <div className="w-[30%] sticky top-6 self-start">
     <div className="bg-white shadow-md rounded-lg">
@@ -75,21 +61,21 @@ const ProfileSection = () => (
       </div>
       <div className="relative p-5">
         <img
-          className="w-full h-full object-cover rounded-full"
-          src={instructorData.profilePicture}
-          alt="Instructor Profile"
-        />
+  className="w-full h-full object-cover rounded-full"
+  src={instructorData?.profilePicture || "../instructer.jpg"}
+  alt="Instructor Profile"
+/>
       </div>
       <div className="px-8 py-2 text-center mt-4">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">{instructorData.name}</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">{instructorData?.name}</h2>
         <p className="text-gray-600 font-medium mb-1">
-          {instructorData.role}
+          {instructorData?.role}
         </p>
-        <p className="text-sm text-gray-500 mb-4">ID: {instructorData.id} • {instructorData.batch}</p>
+        <p className="text-sm text-gray-500 mb-4">ID: {instructorData?._id} • {instructorData?.profile.batch}</p>
 
         <div className="inline-flex items-center space-x-2 bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium mb-6">
           <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-          <span>{instructorData.status}</span>
+          <span>{instructorData?.status}</span>
         </div>
       </div>
 
@@ -120,7 +106,7 @@ const ProfileSection = () => (
             </div>
             <div className="flex items-center justify-between text-sm mt-2">
               <span className="text-gray-600">Followers</span>
-              <span className="font-medium text-gray-900">{instructorData.followers}</span>
+              <span className="font-medium text-gray-900">{instructorData?.followers}</span>
             </div>
           </div>
         </div>
@@ -163,9 +149,9 @@ const ProfileSection = () => (
         <div className="text-center">
           <p className="text-xs text-gray-500 mb-2">Contact Information</p>
           <div className="space-y-1 text-sm">
-            <p className="text-gray-700 font-medium">{instructorData.email}</p>
-            <p className="text-gray-600">{instructorData.phone}</p>
-            <p className="text-gray-600">{instructorData.location}</p>
+            <p className="text-gray-700 font-medium">{instructorData?.email}</p>
+            <p className="text-gray-600">{instructorData?.phone}</p>
+            <p className="text-gray-600">{instructorData?.address}</p>
           </div>
         </div>
       </div>

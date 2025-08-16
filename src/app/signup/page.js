@@ -69,12 +69,14 @@ const SignUp = () => {
         password: formData.password,
         role: selectedRole,
         educationLevel: formData.educationLevel,
-        bio: formData.bio
+        bio: formData.bio,
+        status:formData.status 
       };
 
       if (selectedRole === 'teacher') {
         payload.experience = formData.experience;
         payload.subjects = formData.subjects;
+        payload.batch=formData.batch;
       } else {
         payload.learningGoals = formData.learningGoals;
       }
@@ -496,6 +498,34 @@ const SignUp = () => {
                           onChange={handleinputChange}
                           type="text"
                           placeholder="e.g. Mathematics, Physics, Computer Science"
+                          className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white"
+                          required
+                        />
+                      </div>
+                       <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Enter Your Batch
+                        </label>
+                        <input
+                        name="batch"
+                          value={formData.batch}
+                          onChange={handleinputChange}
+                          type="text"
+                          placeholder="e.g. Faculty 2018"
+                          className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white"
+                          required
+                        />
+                      </div>
+                       <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">
+                          Current Status
+                        </label>
+                        <input
+                        name="status"
+                          value={formData.status}
+                          onChange={handleinputChange}
+                          type="text"
+                          placeholder="e.g. Active Instructer"
                           className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-200 bg-white"
                           required
                         />
