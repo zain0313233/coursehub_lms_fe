@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CoursesSection from "./CoursesSection";
 import BlogsSection from "./BlogsSection";
 import AnalyticsSection from "./AnalyticsSection";
@@ -10,6 +10,8 @@ import ProfileSection from "./ProfileSection";
 import DemoVideoSection from "./DemoVideoSection";
 import Footer from "@/component/Footer";
 import Navbar from "@/component/Navbar";
+import axios from "axios";
+import { useUser } from "@/context/UserContext";
 
 const instructorData = {
   name: "Dr. Amanda Rodriguez",
@@ -25,10 +27,41 @@ const instructorData = {
   profilePicture: "../instructer.jpg",
   id: "INS789",
   batch: "Faculty 2018",
-  status: "Active Instructor",
+  status: "Active Instructor"
 };
 
 const InstructorDashboard = () => {
+  const [instructorData, setInstructorData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { user } = useUser();
+
+  const fetchData = async () => {
+    try {
+      if (!user?.id) return;
+      setLoading(true);
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/${user.id}`,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+
+      if (response.status === 200) {
+        setInstructorData(response.data.userdata);
+        console.log("User data fetched:", response.data.userdata);
+      }
+    } catch (error) {
+      console.error("Error fetching user data", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [user?.id]);
   return (
     <>
       <Navbar />
@@ -51,7 +84,7 @@ const InstructorDashboard = () => {
                 Instructor Dashboard
               </h1>
               <p className="text-gray-100 font-serif">
-                Welcome, {instructorData.name.split(" ")[1]}!
+                Welcome, {instructorData?.name.split(" ")[1] || ""}!
               </p>
             </div>
           </div>
@@ -67,95 +100,103 @@ const InstructorDashboard = () => {
               </div>
 
               <div className="p-6">
-                <div className="mb-8">
-                  <h3 className="text-xl font-semibold mb-4 text-gray-800 border-b border-gray-200 pb-2">
-                    Personal Details
-                  </h3>
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Full Name
-                        </label>
-                        <input
-                          type="text"
-                          value={instructorData.name}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          readOnly
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Email
-                        </label>
-                        <input
-                          type="email"
-                          value={instructorData.email}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          readOnly
-                        />
+                {loading ? (
+                  <p>loading ...</p>
+                ) : instructorData ? (
+                  <>
+                    <div className="mb-8">
+                      <h3 className="text-xl font-semibold mb-4 text-gray-800 border-b border-gray-200 pb-2">
+                        Personal Details
+                      </h3>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Full Name
+                            </label>
+                            <input
+                              type="text"
+                              value={instructorData.name}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Email
+                            </label>
+                            <input
+                              type="email"
+                              value={instructorData.email}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              readOnly
+                            />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Address
+                            </label>
+                            <input
+                              type="text"
+                              value={instructorData.address}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Phone
+                            </label>
+                            <input
+                              type="text"
+                              value={instructorData.phone}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              readOnly
+                            />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Specialization
+                            </label>
+                            <input
+                              type="text"
+                              value={instructorData.profile.subjects}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              readOnly
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              Experience
+                            </label>
+                            <input
+                              type="text"
+                              value={`${instructorData.profile.experience} of teaching`}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              readOnly
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Instructor ID
-                        </label>
-                        <input
-                          type="text"
-                          value={instructorData.id}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          readOnly
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Phone
-                        </label>
-                        <input
-                          type="text"
-                          value={instructorData.phone}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          readOnly
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Specialization
-                        </label>
-                        <input
-                          type="text"
-                          value={instructorData.specialization}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          readOnly
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Experience
-                        </label>
-                        <input
-                          type="text"
-                          value={`${instructorData.experience} of teaching`}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          readOnly
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <CoursesSection />
-                <BlogsSection />
-                <FollowersSection />
-                <StudentsSection />
-                <DemoVideoSection />
-                <AnalyticsSection />
-                <NotificationsSectiontwo />
+                    <CoursesSection />
+                    <BlogsSection />
+                    <FollowersSection />
+                    <StudentsSection />
+                    <DemoVideoSection />
+                    <AnalyticsSection />
+                    <NotificationsSectiontwo />
 
-                <div className="h-8"></div>
+                    <div className="h-8"></div>
+                  </>
+                ) : (
+                  <p>No user data found</p>
+                )}
               </div>
             </div>
           </div>
