@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import { User, Edit3, Plus, BarChart3, PenTool } from 'lucide-react';
+import AddCoursePopup from '@/component/popups/coursepopup';
 
 
 
@@ -121,10 +122,7 @@ const ProfileSection = ({instructorData}) => (
             <span className="font-semibold">Edit Profile</span>
           </button>
 
-          <button className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3.5 px-4 rounded-xl hover:from-emerald-700 hover:to-emerald-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 group">
-            <Plus className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
-            <span className="font-semibold">Create Course</span>
-          </button>
+         <AddCoursePopup/>
 
           <button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3.5 px-4 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 group">
             <PenTool className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />

@@ -55,7 +55,7 @@ const CoursesSection = () => (
         </div>
         <button className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition flex items-center gap-2">
           <Plus size={16} />
-          Create New Course
+          See All Course
         </button>
       </div>
 
