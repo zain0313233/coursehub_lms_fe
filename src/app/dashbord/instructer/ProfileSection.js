@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import { User, Edit3, Plus, BarChart3, PenTool } from 'lucide-react';
 import AddCoursePopup from '@/component/popups/coursepopup';
 
@@ -51,7 +51,14 @@ const courses = [
   }
 ];
 
-const ProfileSection = ({instructorData}) => (
+const ProfileSection = ({instructorData,coursesSectionRef}) => {
+   
+   const handleCourseAdded = () => {
+    if (coursesSectionRef.current) {
+      coursesSectionRef.current.refreshCourses();
+    }
+  };
+  return (
 
   <div className="w-[30%] sticky top-6 self-start">
     <div className="bg-white shadow-md rounded-lg">
@@ -122,7 +129,7 @@ const ProfileSection = ({instructorData}) => (
             <span className="font-semibold">Edit Profile</span>
           </button>
 
-         <AddCoursePopup/>
+         <AddCoursePopup onCourseAdded={handleCourseAdded}/>
 
           <button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3.5 px-4 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 group">
             <PenTool className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
@@ -156,5 +163,6 @@ const ProfileSection = ({instructorData}) => (
     </div>
   </div>
 );
+}
 
 export default ProfileSection;

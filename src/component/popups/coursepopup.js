@@ -4,7 +4,7 @@ import { X, Upload, BookOpen, User, DollarSign, Clock, Tag, FileText, List, Chec
 import { useUser } from "@/context/UserContext";
 import axios from "axios";
 
-export default function AddCoursePopup() {
+export default function AddCoursePopup({ onCourseAdded }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useUser();
@@ -166,6 +166,9 @@ export default function AddCoursePopup() {
         resetForm();
         setIsOpen(false);
         alert('Course created successfully!');
+         if (onCourseAdded) {
+          onCourseAdded();
+        }
       } else {
         alert(response.data.message || 'Failed to create course');
       }

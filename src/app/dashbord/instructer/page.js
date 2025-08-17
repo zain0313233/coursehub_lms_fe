@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CoursesSection from "./CoursesSection";
 import BlogsSection from "./BlogsSection";
 import AnalyticsSection from "./AnalyticsSection";
@@ -13,27 +13,11 @@ import Navbar from "@/component/Navbar";
 import axios from "axios";
 import { useUser } from "@/context/UserContext";
 
-const instructorData = {
-  name: "Dr. Amanda Rodriguez",
-  role: "Senior Web Development Instructor",
-  email: "amanda.rodriguez@university.edu",
-  phone: "+1 (555) 123-4567",
-  location: "San Francisco, CA",
-  specialization: "Full-Stack Development & UI/UX Design",
-  experience: "15 years",
-  tagline:
-    "Empowering the next generation of developers through innovative teaching methods",
-  followers: 2847,
-  profilePicture: "../instructer.jpg",
-  id: "INS789",
-  batch: "Faculty 2018",
-  status: "Active Instructor"
-};
-
 const InstructorDashboard = () => {
   const [instructorData, setInstructorData] = useState(null);
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
+  const coursesSectionRef = useRef();
 
   const fetchData = async () => {
     try {
@@ -62,6 +46,7 @@ const InstructorDashboard = () => {
   useEffect(() => {
     fetchData();
   }, [user?.id]);
+
   return (
     <>
       <Navbar />
@@ -90,7 +75,7 @@ const InstructorDashboard = () => {
           </div>
 
           <div className="flex w-full p-6 gap-6 items-start">
-            <ProfileSection instructorData={instructorData} />
+            <ProfileSection instructorData={instructorData} coursesSectionRef={coursesSectionRef} />
 
             <div className="w-[70%] bg-white shadow-md rounded-lg">
               <div className="p-6 bg-gray-800 text-white rounded-t-lg">
@@ -184,7 +169,7 @@ const InstructorDashboard = () => {
                       </div>
                     </div>
 
-                    <CoursesSection />
+                    <CoursesSection ref={coursesSectionRef} />
                     <BlogsSection />
                     <FollowersSection />
                     <StudentsSection />
