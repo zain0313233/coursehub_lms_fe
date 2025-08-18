@@ -4,7 +4,7 @@ import { X, Upload, BookOpen, User, DollarSign, Clock, Tag, FileText, List, Chec
 import { useUser } from "@/context/UserContext";
 import axios from "axios";
 
-export default function AddCoursePopup({ onCourseAdded }) {
+export default function AddCoursePopup({ onRecordAdded }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useUser();
@@ -66,7 +66,7 @@ export default function AddCoursePopup({ onCourseAdded }) {
     if (user?.id) {
       setFormData(prev => ({
         ...prev,
-        teacherid: user.id
+        teacher: user.id
       }));
     }
   }, [user]);
@@ -125,7 +125,7 @@ export default function AddCoursePopup({ onCourseAdded }) {
     if (!formData.duration.trim()) newErrors.duration = 'Duration is required';
     if (!formData.category) newErrors.category = 'Category is required';
     if (!formData.price.trim()) newErrors.price = 'Price is required';
-    if (!formData.teacherid) newErrors.teacherid = 'Teacher is required';
+    if (!formData.teacher) newErrors.teacher = 'Teacher is required';
     if (!formData.description.trim()) newErrors.description = 'Description is required';
 
     setErrors(newErrors);
@@ -166,8 +166,8 @@ export default function AddCoursePopup({ onCourseAdded }) {
         resetForm();
         setIsOpen(false);
         alert('Course created successfully!');
-         if (onCourseAdded) {
-          onCourseAdded();
+         if (onRecordAdded) {
+          onRecordAdded();
         }
       } else {
         alert(response.data.message || 'Failed to create course');
@@ -187,7 +187,7 @@ export default function AddCoursePopup({ onCourseAdded }) {
       duration: '',
       category: '',
       price: '',
-      teacherid: user?.id || '',
+      teacher: user?.id || '',
       description: '',
       status: 'Draft',
       syllabus: [''],
@@ -203,8 +203,45 @@ export default function AddCoursePopup({ onCourseAdded }) {
     resetForm();
   };
 
-  // Modal content component
-  const ModalContent = () => (
+ 
+
+  if (!isOpen) {
+    return (
+      <button
+        onClick={() => setIsOpen(true)}
+        className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3.5 px-4 rounded-xl hover:from-emerald-700 hover:to-emerald-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 group"
+      >
+        <BookOpen 
+        className="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
+        size={20} />
+       <span className="font-semibold">Add New Course</span>
+      </button>
+    );
+  }
+
+  return typeof document !== 'undefined' ? createPortal(
+        <ModalContent
+          handleClose={handleClose}
+          handleSubmit={handleSubmit}
+          loading={loading}
+          formData={formData}
+          errors={errors}
+          handleInputChange={handleInputChange}
+          handleFileChange={handleFileChange}
+          previewImage={previewImage}
+          setPreviewImage={setPreviewImage}
+          setFormData={setFormData}
+          categories={categories}
+          statusOptions={statusOptions}
+          handleArrayChange={handleArrayChange}
+          removeArrayItem={removeArrayItem}
+          addArrayItem={addArrayItem}
+        />,
+        document.body
+      ) : null;
+}
+function ModalContent({ handleClose, handleSubmit, loading, formData, errors, handleInputChange, handleFileChange, previewImage, setPreviewImage, setFormData, categories, statusOptions, handleArrayChange, removeArrayItem, addArrayItem }) {
+  return (
     <div 
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4"
       style={{ zIndex: 9999 }}
@@ -485,6 +522,7 @@ export default function AddCoursePopup({ onCourseAdded }) {
               disabled={loading}
               className="flex-1 py-3 px-6 bg-gradient-to-r from-cyan-600 to-cyan-700 text-white rounded-xl font-semibold hover:from-cyan-700 hover:to-cyan-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg"
             >
+              
               {loading ? 'Creating...' : 'Create Course'}
             </button>
           </div>
@@ -492,20 +530,4 @@ export default function AddCoursePopup({ onCourseAdded }) {
       </div>
     </div>
   );
-
-  if (!isOpen) {
-    return (
-      <button
-        onClick={() => setIsOpen(true)}
-        className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3.5 px-4 rounded-xl hover:from-emerald-700 hover:to-emerald-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 group"
-      >
-        <BookOpen 
-        className="w-5 h-5 group-hover:scale-110 transition-transform duration-200"
-        size={20} />
-       <span className="font-semibold">Add New Course</span>
-      </button>
-    );
-  }
-
-  return typeof document !== 'undefined' ? createPortal(<ModalContent />, document.body) : null;
 }

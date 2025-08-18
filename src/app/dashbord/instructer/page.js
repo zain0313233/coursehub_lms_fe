@@ -17,7 +17,7 @@ const InstructorDashboard = () => {
   const [instructorData, setInstructorData] = useState(null);
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
-  const coursesSectionRef = useRef();
+  const recordSectionRef = useRef();
 
   const fetchData = async () => {
     try {
@@ -75,7 +75,7 @@ const InstructorDashboard = () => {
           </div>
 
           <div className="flex w-full p-6 gap-6 items-start">
-            <ProfileSection instructorData={instructorData} coursesSectionRef={coursesSectionRef} />
+            <ProfileSection instructorData={instructorData} recordSectionRef={recordSectionRef} />
 
             <div className="w-[70%] bg-white shadow-md rounded-lg">
               <div className="p-6 bg-gray-800 text-white rounded-t-lg">
@@ -169,7 +169,7 @@ const InstructorDashboard = () => {
                       </div>
                     </div>
 
-                    <CoursesSection ref={coursesSectionRef} />
+                    <CoursesSection ref={recordSectionRef} />
                     <BlogsSection />
                     <FollowersSection />
                     <StudentsSection />

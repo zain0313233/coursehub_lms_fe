@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { User, Edit3, Plus, BarChart3, PenTool } from 'lucide-react';
 import AddCoursePopup from '@/component/popups/coursepopup';
+import AddBlogPopup from '@/component/popups/blogpopup';
 
 
 
@@ -51,11 +52,11 @@ const courses = [
   }
 ];
 
-const ProfileSection = ({instructorData,coursesSectionRef}) => {
+const ProfileSection = ({instructorData,recordSectionRef}) => {
    
-   const handleCourseAdded = () => {
-    if (coursesSectionRef.current) {
-      coursesSectionRef.current.refreshCourses();
+   const handleRecordAdded = () => {
+    if (recordSectionRef.current) {
+      recordSectionRef.current.refreshComponnet();
     }
   };
   return (
@@ -129,12 +130,11 @@ const ProfileSection = ({instructorData,coursesSectionRef}) => {
             <span className="font-semibold">Edit Profile</span>
           </button>
 
-         <AddCoursePopup onCourseAdded={handleCourseAdded}/>
+         <AddCoursePopup onRecordAdded={handleRecordAdded}/>
+        <AddBlogPopup onRecordAdded={handleRecordAdded}/>
+         
 
-          <button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3.5 px-4 rounded-xl hover:from-purple-700 hover:to-purple-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 group">
-            <PenTool className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
-            <span className="font-semibold">Write Blog</span>
-          </button>
+          
 
           <button className="w-full bg-gradient-to-r from-amber-600 to-amber-700 text-white py-3.5 px-4 rounded-xl hover:from-amber-700 hover:to-amber-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center justify-center space-x-3 group">
             <BarChart3 className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
