@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { X, Upload, FileText, Eye, Calendar, Tag, Plus } from "lucide-react";
+import { useUser } from "@/context/UserContext";
+import axios from "axios";
 
 export default function AddBlogPopup({ onRecordAdded }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useUser();
 
   const [formData, setFormData] = useState({
     title: "",
     content: "",
     category: "",
+    teacher: user?.id || "",
     thumbnail: null,
     status: "Draft"
   });
@@ -38,20 +42,26 @@ export default function AddBlogPopup({ onRecordAdded }) {
     { value: "Archived", label: "Archived" }
   ];
 
-  useEffect(
-    () => {
-      if (isOpen) {
-        document.body.style.overflow = "hidden";
-      } else {
-        document.body.style.overflow = "unset";
-      }
+  useEffect(() => {
+    if (user?.id) {
+      setFormData(prev => ({
+        ...prev,
+        teacher: user.id
+      }));
+    }
+  }, [user]);
 
-      return () => {
-        document.body.style.overflow = "unset";
-      };
-    },
-    [isOpen]
-  );
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -80,6 +90,8 @@ export default function AddBlogPopup({ onRecordAdded }) {
     if (!formData.title.trim()) newErrors.title = "Title is required";
     if (!formData.content.trim()) newErrors.content = "Content is required";
     if (!formData.category) newErrors.category = "Category is required";
+    if (!formData.teacher) newErrors.teacher = "Teacher ID is required";
+    if (!formData.thumbnail) newErrors.thumbnail = "Thumbnail image is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -93,37 +105,40 @@ export default function AddBlogPopup({ onRecordAdded }) {
     try {
       const formDataToSend = new FormData();
 
-   
       formDataToSend.append("title", formData.title);
       formDataToSend.append("content", formData.content);
       formDataToSend.append("category", formData.category);
       formDataToSend.append("status", formData.status);
+      formDataToSend.append("teacher", formData.teacher);
 
       if (formData.thumbnail) {
         formDataToSend.append("thumbnail", formData.thumbnail);
       }
 
-     
-      const response = await fetch("/api/blog/create", {
-        method: "POST",
-        body: formDataToSend
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/blogs/create`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        }
+      );
 
-      const result = await response.json();
-
-      if (result.success) {
+      if (response.data.success) {
         resetForm();
         setIsOpen(false);
-        alert("Blog post created successfully!");
+        alert('Blog created successfully!');
         if (onRecordAdded) {
           onRecordAdded();
         }
       } else {
-        alert(result.message || "Failed to create blog post");
+        alert(response.data.message || 'Failed to create blog post');
       }
     } catch (error) {
       console.error("Error creating blog post:", error);
-      alert("An error occurred while creating the blog post");
+      const errorMessage = error.response?.data?.message || "An error occurred while creating the blog post";
+      alert(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -134,6 +149,7 @@ export default function AddBlogPopup({ onRecordAdded }) {
       title: "",
       content: "",
       category: "",
+      teacher: user?.id || "",
       thumbnail: null,
       status: "Draft"
     });
@@ -189,7 +205,6 @@ export default function AddBlogPopup({ onRecordAdded }) {
 
             <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
                 <div className="space-y-6">
                   <div>
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
@@ -204,10 +219,11 @@ export default function AddBlogPopup({ onRecordAdded }) {
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-0 transition-colors"
                       placeholder="10 Essential React Hooks Every Developer Should Know"
                     />
-                    {errors.title &&
+                    {errors.title && (
                       <p className="text-red-500 text-sm mt-1">
                         {errors.title}
-                      </p>}
+                      </p>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
@@ -223,16 +239,17 @@ export default function AddBlogPopup({ onRecordAdded }) {
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-0 transition-colors"
                       >
                         <option value="">Select Category</option>
-                        {categories.map(cat =>
+                        {categories.map(cat => (
                           <option key={cat} value={cat}>
                             {cat}
                           </option>
-                        )}
+                        ))}
                       </select>
-                      {errors.category &&
+                      {errors.category && (
                         <p className="text-red-500 text-sm mt-1">
                           {errors.category}
-                        </p>}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -246,11 +263,11 @@ export default function AddBlogPopup({ onRecordAdded }) {
                         onChange={handleInputChange}
                         className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-0 transition-colors"
                       >
-                        {statusOptions.map(option =>
+                        {statusOptions.map(option => (
                           <option key={option.value} value={option.value}>
                             {option.label}
                           </option>
-                        )}
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -268,14 +285,14 @@ export default function AddBlogPopup({ onRecordAdded }) {
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-0 transition-colors resize-none"
                       placeholder="Write your blog content here. You can use markdown formatting..."
                     />
-                    {errors.content &&
+                    {errors.content && (
                       <p className="text-red-500 text-sm mt-1">
                         {errors.content}
-                      </p>}
+                      </p>
+                    )}
                   </div>
                 </div>
 
-               
                 <div className="space-y-6">
                   <div>
                     <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
@@ -283,42 +300,44 @@ export default function AddBlogPopup({ onRecordAdded }) {
                       Featured Image
                     </label>
                     <div className="relative border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-cyan-400 transition-colors">
-                      {previewImage
-                        ? <div className="relative">
-                            <img
-                              src={previewImage}
-                              alt="Preview"
-                              className="w-full h-48 object-cover rounded-lg mb-3"
-                            />
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setPreviewImage(null);
-                                setFormData(prev => ({
-                                  ...prev,
-                                  thumbnail: null
-                                }));
-                              }}
-                              className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
-                            >
-                              <X size={16} />
-                            </button>
+                      {previewImage ? (
+                        <div className="relative">
+                          <img
+                            src={previewImage}
+                            alt="Preview"
+                            className="w-full h-48 object-cover rounded-lg mb-3"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setPreviewImage(null);
+                              setFormData(prev => ({
+                                ...prev,
+                                thumbnail: null
+                              }));
+                            }}
+                            className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
+                          >
+                            <X size={16} />
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          <Upload
+                            size={48}
+                            className="mx-auto text-gray-400"
+                          />
+                          <div className="text-sm text-gray-600">
+                            <span className="text-cyan-600 font-semibold cursor-pointer">
+                              Upload an image
+                            </span>{" "}
+                            or drag and drop
                           </div>
-                        : <div className="space-y-3">
-                            <Upload
-                              size={48}
-                              className="mx-auto text-gray-400"
-                            />
-                            <div className="text-sm text-gray-600">
-                              <span className="text-cyan-600 font-semibold cursor-pointer">
-                                Upload an image
-                              </span>{" "}
-                              or drag and drop
-                            </div>
-                            <p className="text-xs text-gray-500">
-                              PNG, JPG, GIF up to 10MB
-                            </p>
-                          </div>}
+                          <p className="text-xs text-gray-500">
+                            PNG, JPG, GIF up to 10MB
+                          </p>
+                        </div>
+                      )}
                       <input
                         type="file"
                         accept="image/*"
@@ -326,6 +345,11 @@ export default function AddBlogPopup({ onRecordAdded }) {
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                       />
                     </div>
+                    {errors.thumbnail && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.thumbnail}
+                      </p>
+                    )}
                   </div>
 
                   <div className="bg-gray-50 rounded-xl p-4">
@@ -343,12 +367,13 @@ export default function AddBlogPopup({ onRecordAdded }) {
                       <div className="flex justify-between">
                         <span>Status:</span>
                         <span
-                          className={`px-2 py-1 rounded-full text-xs ${formData.status ===
-                          "Published"
-                            ? "bg-green-100 text-green-700"
-                            : formData.status === "Draft"
+                          className={`px-2 py-1 rounded-full text-xs ${
+                            formData.status === "Published"
+                              ? "bg-green-100 text-green-700"
+                              : formData.status === "Draft"
                               ? "bg-yellow-100 text-yellow-700"
-                              : "bg-gray-100 text-gray-700"}`}
+                              : "bg-gray-100 text-gray-700"
+                          }`}
                         >
                           {formData.status}
                         </span>
