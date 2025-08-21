@@ -9,6 +9,7 @@ const DemoVideoSection = () => {
   const [instructorData, setInstructorData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const { user } = useUser();
   const recordSectionRef = useRef();
 
@@ -45,7 +46,7 @@ const DemoVideoSection = () => {
     if (file) {
       setIsUploading(true);
       
-      
+     
       setTimeout(() => {
         setIsUploading(false);
        
@@ -65,14 +66,15 @@ const DemoVideoSection = () => {
 
   
   const generateThumbnail = (videoUrl) => {
-   
+    
     if (videoUrl && videoUrl.includes('cloudinary.com')) {
       return videoUrl.replace('/video/upload/', '/video/upload/so_0,w_400,h_225,c_fill/').replace('.mp4', '.jpg');
     }
+  
     return "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=225&fit=crop";
   };
 
-  
+
   const hasVideo = instructorData?.videoUrl && instructorData?.videotitle;
 
   if (loading) {
@@ -104,26 +106,40 @@ const DemoVideoSection = () => {
       ) : (
         <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
           <div className="relative">
-            <img
-              src={generateThumbnail(instructorData.videoUrl)}
-              alt={instructorData.videotitle}
-              className="w-full h-64 object-cover"
-              onError={(e) => {
-                e.target.src = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=225&fit=crop";
-              }}
-            />
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group hover:bg-opacity-30 transition-all cursor-pointer">
-              <div 
-                className="bg-white bg-opacity-90 rounded-full p-4 group-hover:bg-opacity-100 transition-all"
-                onClick={() => {
+            {!isPlaying ? (
+              <>
+                <img
+                  src={generateThumbnail(instructorData.videoUrl)}
+                  alt={instructorData.videotitle}
+                  className="w-full h-64 object-cover"
+                  onError={(e) => {
+                    e.target.src = "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=225&fit=crop";
+                  }}
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center group hover:bg-opacity-30 transition-all cursor-pointer">
+                  <div 
+                    className="bg-white bg-opacity-90 rounded-full p-4 group-hover:bg-opacity-100 transition-all"
+                    onClick={() => setIsPlaying(true)}
+                  >
+                    <Play className="w-8 h-8 text-blue-600" fill="currentColor" />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <video
+                className="w-full h-64 object-cover"
+                controls
+                autoPlay
+                onEnded={() => setIsPlaying(false)}
+                onPause={() => {
                  
-                  window.open(instructorData.videoUrl, '_blank');
                 }}
               >
-                <Play className="w-8 h-8 text-blue-600" fill="currentColor" />
-              </div>
-            </div>
-            
+                <source src={instructorData.videoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )}
+           
           </div>
           
           <div className="p-6">
