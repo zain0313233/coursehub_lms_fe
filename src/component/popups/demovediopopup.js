@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
+import axios from "axios"
+import { useUser } from "@/context/UserContext";
 import { X, Upload, Video, Play, Calendar, FileText, Plus } from "lucide-react";
 
 export default function AddDemoVideoPopup({ onRecordAdded }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useUser();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -11,6 +14,7 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [previewVideo, setPreviewVideo] = useState(null);
 
   useEffect(() => {
@@ -39,7 +43,7 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
   const handleVideoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Check file size (max 100MB)
+      
       if (file.size > 100 * 1024 * 1024) {
         alert("File size must be less than 100MB");
         return;
@@ -68,22 +72,33 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
     if (!validateForm()) return;
 
     setLoading(true);
+    setUploadProgress(0);
 
     try {
       const formDataToSend = new FormData();
-      formDataToSend.append("title", formData.title);
-      formDataToSend.append("description", formData.description);
-      formDataToSend.append("videoFile", formData.videoFile);
+      
+      formDataToSend.append("videotitle", formData.title); 
+      formDataToSend.append("vediodescription", formData.description);  
+      formDataToSend.append("video", formData.videoFile); 
 
-      // Simulated API call - replace with your actual endpoint
-      const response = await fetch("/api/demo-video/upload", {
-        method: "POST",
-        body: formDataToSend
-      });
+      const response = await axios.patch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/${user.id}/video`,
+        formDataToSend, 
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percentCompleted);
+          }
+        }
+      );
 
-      const result = await response.json();
-
-      if (result.success) {
+      if (response.data.success) {
         resetForm();
         setIsOpen(false);
         alert("Demo video uploaded successfully!");
@@ -91,13 +106,22 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
           onRecordAdded();
         }
       } else {
-        alert(result.message || "Failed to upload demo video");
+        alert(response.data.message || "Failed to upload demo video");
       }
     } catch (error) {
       console.error("Error uploading demo video:", error);
-      alert("An error occurred while uploading the demo video");
+      
+    
+      if (error.response) {
+        alert(error.response.data.message || "Server error occurred");
+      } else if (error.request) {
+        alert("Network error. Please check your connection.");
+      } else {
+        alert("An error occurred while uploading the demo video");
+      }
     } finally {
       setLoading(false);
+      setUploadProgress(0);
     }
   };
 
@@ -109,9 +133,15 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
     });
     setPreviewVideo(null);
     setErrors({});
+    setUploadProgress(0);
   };
 
   const handleClose = () => {
+    if (loading) {
+      if (!confirm("Upload is in progress. Are you sure you want to cancel?")) {
+        return;
+      }
+    }
     setIsOpen(false);
     resetForm();
   };
@@ -171,11 +201,33 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
                 </div>
                 <button
                   onClick={handleClose}
-                  className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                  disabled={loading}
+                  className="p-2 hover:bg-white/20 rounded-lg transition-colors disabled:opacity-50"
                 >
                   <X size={24} />
                 </button>
               </div>
+
+             
+              {loading && (
+                <div className="mt-4">
+                  <div className="flex justify-between text-sm mb-2">
+                    <span>Uploading video...</span>
+                    <span>{uploadProgress}%</span>
+                  </div>
+                  <div className="w-full bg-white/20 rounded-full h-2">
+                    <div
+                      className="bg-white h-2 rounded-full transition-all duration-300 ease-out"
+                      style={{ width: `${uploadProgress}%` }}
+                    ></div>
+                  </div>
+                  {uploadProgress < 100 && (
+                    <p className="text-xs text-cyan-100 mt-1">
+                      Please don't close this window while uploading
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
 
             
@@ -194,7 +246,8 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
                       name="title"
                       value={formData.title}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-0 transition-colors"
+                      disabled={loading}
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-0 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                       placeholder="e.g., Introduction to React Hooks - Teaching Demo"
                     />
                     {errors.title && (
@@ -214,8 +267,9 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
                       name="description"
                       value={formData.description}
                       onChange={handleInputChange}
+                      disabled={loading}
                       rows="6"
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-0 transition-colors resize-none"
+                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-0 transition-colors resize-none disabled:bg-gray-100 disabled:cursor-not-allowed"
                       placeholder="Describe your teaching approach, what topics you cover, and what students can expect to learn from this demo..."
                     />
                     {errors.description && (
@@ -267,7 +321,8 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
                           type="file"
                           accept="video/*"
                           onChange={handleVideoChange}
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                          disabled={loading}
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
                         />
                       </div>
                     ) : (
@@ -286,7 +341,8 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
                               videoFile: null
                             }));
                           }}
-                          className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg"
+                          disabled={loading}
+                          className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <X size={16} />
                         </button>
@@ -349,9 +405,10 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
                 <button
                   type="button"
                   onClick={handleClose}
-                  className="flex-1 py-3 px-6 border-2 border-gray-200 rounded-xl font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition-all"
+                  disabled={loading}
+                  className="flex-1 py-3 px-6 border-2 border-gray-200 rounded-xl font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Cancel
+                  {loading ? "Uploading..." : "Cancel"}
                 </button>
                 <button
                   type="button"
@@ -362,7 +419,7 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
                   {loading ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Uploading...
+                      {uploadProgress < 100 ? `Uploading... ${uploadProgress}%` : "Processing..."}
                     </>
                   ) : (
                     <>

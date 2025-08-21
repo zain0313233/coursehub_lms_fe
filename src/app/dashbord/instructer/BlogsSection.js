@@ -1,33 +1,86 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import axios from "axios"
+import { useUser } from "@/context/UserContext";
 import {  Eye,   PenTool,  } from 'lucide-react';
-const blogs = [
-    {
-      id: 1,
-      title: "10 Essential React Hooks Every Developer Should Know",
-      thumbnail: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&h=200&fit=crop",
-      date: "Jan 15, 2024",
-      views: 2847,
-      category: "Tutorial"
-    },
-    {
-      id: 2,
-      title: "The Future of Frontend Development in 2024",
-      thumbnail: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=300&h=200&fit=crop",
-      date: "Jan 10, 2024",
-      views: 1923,
-      category: "Industry"
-    },
-    {
-      id: 3,
-      title: "Building Accessible Web Applications",
-      thumbnail: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=300&h=200&fit=crop",
-      date: "Jan 5, 2024",
-      views: 1456,
-      category: "Best Practices"
+
+const BlogsSection = forwardRef((props, ref) => {
+  const { user } = useUser();
+  const [loading, setLoading] = useState(false);
+  const [blogs, setBlogs] = useState([]);
+  const [error, setError] = useState(null);
+
+  const fetchBlogs = async () => {
+    if (!user?.id) return;
+    
+    try {
+      setLoading(true);
+      setError(null);
+      const blogsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/blogs/teacher/${user.id}?limit=3`, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      
+      if (blogsResponse.status === 200 && blogsResponse.data.success) {
+       
+        setBlogs(blogsResponse.data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching Blogs:', error);
+      setError('Failed to load Blogs');
+    } finally {
+      setLoading(false);
     }
-  ];
-const BlogsSection = () => (
+  };
+
+  useImperativeHandle(ref, () => ({
+    refreshBlogs: fetchBlogs
+  }));
+
+  useEffect(() => {
+    fetchBlogs();
+  }, [user?.id]);
+
+  
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  if (loading) {
+    return (
+      <div className="mb-12">
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-cyan-600 mx-auto mb-4"></div>
+            <p className="text-gray-500">Loading Blogs...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="mb-12">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+          <p className="text-red-600">{error}</p>
+          <button 
+            onClick={fetchBlogs}
+            className="mt-4 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return(
     <div className="mb-12">
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -43,7 +96,7 @@ const BlogsSection = () => (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {blogs.map((blog) => (
           <div
-            key={blog.id}
+            key={blog._id}
             className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group cursor-pointer"
           >
             <div className="relative overflow-hidden">
@@ -65,7 +118,8 @@ const BlogsSection = () => (
               </h4>
 
               <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
-                <span>{blog.date}</span>
+               
+                <span>{formatDate(blog.createdAt)}</span>
                 <div className="flex items-center gap-1">
                   <Eye size={14} />
                   <span>{blog.views.toLocaleString()} views</span>
@@ -86,4 +140,6 @@ const BlogsSection = () => (
       </div>
     </div>
   );
+});
+
 export default BlogsSection;
