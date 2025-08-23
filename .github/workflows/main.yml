@@ -19,16 +19,22 @@ jobs:
         with:
           node-version: "18"
 
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install Dependencies
         run: npm install
 
       - name: Run Build
         run: npm run build
 
-      
-      
-  
-
-    
-    
-  
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+           name: build-files
+           path: .next/
