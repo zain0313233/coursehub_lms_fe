@@ -12,6 +12,8 @@ import {
   BookOpen,
   UserRoundPen
 } from "lucide-react";
+import Link from "next/link";
+
 import { useUser } from "../context/UserContext";
 
 const Navbar = () => {
@@ -63,21 +65,21 @@ const Navbar = () => {
             </div>
 
             <div className="items-center space-x-1 hidden md:flex">
-              <a
+              <Link
                 href="/login"
                 className="flex items-center space-x-1 px-3 sm:px-4 py-1 sm:py-2 rounded-md hover:bg-white/10 transition-all duration-200 font-medium"
               >
                 <User className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>Login</span>
-              </a>
+              </Link>
               <span className="text-gray-300">|</span>
-              <a
+              <Link
                 href="/signup"
                 className="flex items-center ml-2 space-x-1 px-3 sm:px-4 py-1 sm:py-2 bg-blue-600 hover:bg-blue-700 rounded-md transition-all duration-200 font-medium"
               >
                 <BookOpen className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>SignUp</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -87,7 +89,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
             <div className="flex items-center">
-              <a
+              <Link
                 href="/"
                 className="flex items-center space-x-2 sm:space-x-3 group"
               >
@@ -102,7 +104,7 @@ const Navbar = () => {
                     Learn & Grow
                   </p>
                 </div>
-              </a>
+              </Link>
             </div>
 
             <nav className="hidden lg:flex items-center space-x-1">
@@ -115,7 +117,7 @@ const Navbar = () => {
                   }
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <a
+                  <Link
                     href={item.href}
                     className="flex items-center space-x-1 px-4 py-3 text-gray-700 hover:text-blue-600 font-medium text-sm uppercase tracking-wide transition-all duration-200 relative group"
                   >
@@ -128,28 +130,28 @@ const Navbar = () => {
                       />
                     )}
                     <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left"></div>
-                  </a>
+                  </Link>
 
                   {item.hasDropdown && activeDropdown === index && (
                     <div className="absolute top-full left-0 mt-1 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 transform opacity-100 scale-100 transition-all duration-200">
-                      <a
+                      <Link
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200"
                       >
                         Submenu Item 1
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200"
                       >
                         Submenu Item 2
-                      </a>
-                      <a
+                      </Link>
+                      <Link
                         href="#"
                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200"
                       >
                         Submenu Item 3
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>
@@ -211,53 +213,53 @@ const Navbar = () => {
                     </button>
                     {mobileDropdowns[item.name] && (
                       <div className="ml-4 mt-1 space-y-1">
-                        <a
+                        <Link
                           href="#"
                           className="block py-2 px-4 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                         >
                           Submenu Item 1
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="#"
                           className="block py-2 px-4 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                         >
                           Submenu Item 2
-                        </a>
-                        <a
+                        </Link>
+                        <Link
                           href="#"
                           className="block py-2 px-4 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                         >
                           Submenu Item 3
-                        </a>
+                        </Link>
                       </div>
                     )}
                   </>
                 ) : (
-                  <a
+                  <Link
                     href={item.href}
                     className="flex items-center py-3 px-4 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-all duration-200"
                   >
                     <span>{item.name}</span>
-                  </a>
+                  </Link>
                 )}
               </div>
             ))}
 
             <div className="pt-4 mt-4 border-t border-gray-200 space-y-2 md:hidden">
-              <a
+              <Link
                 href="/login"
                 className="flex items-center space-x-2 px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg font-medium transition-all duration-200"
               >
                 <User className="w-4 h-4" />
                 <span>Login</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/signup"
                 className="flex items-center space-x-2 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-200"
               >
                 <BookOpen className="w-4 h-4" />
                 <span>Sign Up</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

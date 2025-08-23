@@ -142,4 +142,6 @@ const BlogsSection = forwardRef((props, ref) => {
   );
 });
 
+BlogsSection.displayName = "BlogsSection";
+
 export default BlogsSection;

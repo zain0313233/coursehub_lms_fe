@@ -223,7 +223,7 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
                   </div>
                   {uploadProgress < 100 && (
                     <p className="text-xs text-cyan-100 mt-1">
-                      Please don't close this window while uploading
+                      Please don not close this window while uploading
                     </p>
                   )}
                 </div>

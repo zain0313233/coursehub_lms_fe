@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { Plus, Users, Star } from 'lucide-react';
+
 import axios from "axios";
 import { useUser } from "@/context/UserContext";
 
@@ -88,7 +89,7 @@ const CoursesSection = forwardRef((props, ref) => {
           <div className="bg-gray-50 rounded-2xl p-12">
             <Users size={48} className="mx-auto text-gray-300 mb-4" />
             <h3 className="text-lg font-medium text-gray-800 mb-2">No courses found</h3>
-            <p className="text-gray-500 mb-6">You haven't created any courses yet.</p>
+            <p className="text-gray-500 mb-6">You have not created any courses yet.</p>
             <button className="bg-cyan-600 text-white px-6 py-3 rounded-lg hover:bg-cyan-700 transition flex items-center gap-2 mx-auto">
               <Plus size={16} />
               Create Your First Course
