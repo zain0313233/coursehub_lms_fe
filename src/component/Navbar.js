@@ -32,7 +32,7 @@ const Navbar = () => {
     { name: "Home", href: "/", hasDropdown: false },
     { name: "Pages", href: "/pages", hasDropdown: true },
     { name: "Courses", href: "/courses", hasDropdown: true },
-    { name: "Teachers", href: "/teachers", hasDropdown: false },
+    { name: "Instructers", href: "/Instructers", hasDropdown: false },
     { name: "News", href: "/news", hasDropdown: false },
     { name: "About Us", href: "/about", hasDropdown: false },
     { name: "Contact", href: "/contact", hasDropdown: false }
