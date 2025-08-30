@@ -37,12 +37,12 @@ const followers = [
   ];
    const FollowersSection = () => (
       <div className="mb-12">
-        <div className="flex items-center justify-between mb-6">
+        <div className="md:flex block items-center justify-between mb-6">
           <div>
             <h3 className="text-xl font-semibold mb-2 text-gray-800">Followers & Engagement</h3>
             <p className="text-sm text-gray-600">Connect with your learning community</p>
           </div>
-          <button className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2">
+          <button className="bg-green-600 md:mt-0 mt-6 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition flex items-center gap-2">
             <Users size={16} />
             View All ({instructorData.followers})
           </button>
@@ -51,15 +51,15 @@ const followers = [
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-6">
             <div className="text-center">
-              <div className="text-3xl font-bold text-gray-900 mb-1">{instructorData.followers}</div>
+              <div className="md:text-3xl text-xl font-bold text-gray-900 mb-1">{instructorData.followers}</div>
               <div className="text-sm text-gray-600">Total Followers</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 mb-1">+{Math.floor(instructorData.followers * 0.1)}</div>
+              <div className="md:text-3xl text-xl  font-bold text-green-600 mb-1">+{Math.floor(instructorData.followers * 0.1)}</div>
               <div className="text-sm text-gray-600">This Month</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-1">4.9</div>
+              <div className="md:text-3xl text-xl  font-bold text-blue-600 mb-1">4.9</div>
               <div className="text-sm text-gray-600">Avg Rating</div>
             </div>
           </div>

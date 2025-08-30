@@ -120,7 +120,7 @@ const ProfileSection = ({ instructorData, recordSectionRef }) => {
     }
   };
   return (
-    <div className="w-[30%] sticky top-6 self-start">
+    <div className="md:w-[30%] w-full md:sticky top-6 self-start">
       <input
         ref={fileInputRef}
         type="file"

@@ -2,7 +2,7 @@ import React from "react";
 
 const Profilesection = () => {
   return (
-    <div className="w-[30%] bg-white shadow-md rounded-lg">
+    <div className="md:w-[30%] w-full bg-white shadow-md rounded-lg">
         <div className="p-6 bg-gray-800 text-white rounded-t-lg">
       <h1 className="text-2xl font-semibold text-white   text-center">
         Student Profile

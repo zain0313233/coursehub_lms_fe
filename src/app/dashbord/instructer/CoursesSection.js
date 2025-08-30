@@ -73,12 +73,12 @@ const CoursesSection = forwardRef((props, ref) => {
 
   return (
     <div className="mb-12">
-      <div className="flex items-center justify-between mb-6">
+      <div className="md:flex block items-center justify-between mb-6">
         <div>
           <h3 className="text-xl font-semibold mb-2 text-gray-800">My Courses</h3>
           <p className="text-sm text-gray-600">Manage and track your course performance</p>
         </div>
-        <button className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition flex items-center gap-2">
+        <button className="bg-cyan-600 md:mt-0 mt-6 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition flex items-center gap-2">
           <Plus size={16} />
           See All Courses
         </button>

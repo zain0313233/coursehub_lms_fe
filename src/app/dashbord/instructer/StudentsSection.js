@@ -31,12 +31,12 @@ import { MessageCircle } from 'lucide-react';
   ];
 const StudentsSection = () => (
     <div className="mb-12">
-      <div className="flex items-center justify-between mb-6">
+      <div className="md:flex block items-center justify-between mb-6">
         <div>
           <h3 className="text-xl font-semibold mb-2 text-gray-800">Student Learning Tracker</h3>
           <p className="text-sm text-gray-600">Monitor your students progress and engagement</p>
         </div>
-        <button className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition flex items-center gap-2">
+        <button className="bg-cyan-600 md:mt-0 mt-6 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 transition flex items-center gap-2">
           <MessageCircle size={16} />
           Send Message to All
         </button>

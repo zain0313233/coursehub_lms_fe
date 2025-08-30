@@ -74,11 +74,11 @@ const InstructorDashboard = () => {
             </div>
           </div>
 
-          <div className="flex w-full p-6 gap-6 items-start">
+          <div className="md:flex block w-full p-6 md:gap-6 items-start">
             <ProfileSection instructorData={instructorData} recordSectionRef={recordSectionRef} />
 
-            <div className="w-[70%] bg-white shadow-md rounded-lg">
-              <div className="p-6 bg-gray-800 text-white rounded-t-lg">
+            <div className="md:w-[70%] w-full bg-white shadow-md rounded-lg">
+              <div className="p-6 bg-gray-800 text-white rounded-t-lg md:mt-0 mt-6">
                 <h2 className="text-2xl font-semibold">
                   Instructor Information
                 </h2>

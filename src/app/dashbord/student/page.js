@@ -67,10 +67,10 @@ const Student = () => {
           </div>
 
          
-          <div className="flex w-full p-6 min-h-[800px] gap-6">
+          <div className="md:flex block w-full p-6 min-h-[800px] gap-6">
             <Profilesection />
 
-            <div className="w-[70%] bg-white shadow-md rounded-lg">
+            <div className="md:w-[70%] w-full md:mt-0 mt-10 bg-white shadow-md rounded-lg">
               <div className="p-6 bg-gray-800 text-white rounded-t-lg">
                 <h2 className="text-2xl font-semibold">Student Information</h2>
               </div>
