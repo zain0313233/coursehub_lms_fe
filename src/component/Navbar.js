@@ -54,13 +54,13 @@ const Navbar = () => {
               <div className="flex items-center space-x-1 sm:space-x-2 hover:text-blue-300 transition-colors duration-200">
                 <Mail className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span className="font-medium hidden sm:inline">
-                  zain.ali.cs.dev@gmail.com
+                  {user ? user.email :"Coursehublms@gmail.com"}
                 </span>
                 <span className="font-medium sm:hidden">Email</span>
               </div>
               <div className="flex items-center space-x-1 sm:space-x-2 hover:text-blue-300 transition-colors duration-200">
                 <Phone className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span className="font-medium">+92 333 1234567</span>
+                <span className="font-medium">{user ? user.phone : "+92 333 1234567"}</span>
               </div>
             </div>
 

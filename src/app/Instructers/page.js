@@ -37,7 +37,7 @@ const Instructers = () => {
   };
 
   const handleViewProfile = (instructorId) => {
-    window.location.href = `/instructor-profile/${instructorId}`;
+    window.location.href = `/dashbord/instructer/Profile/${instructorId}`;
   };
 
   const getSubjectsDisplay = (subjects) => {
