@@ -247,7 +247,7 @@ const Login = () => {
                       </span>
                     </label>
                     <a
-                      href="#"
+                      href="/forget-password"
                       className="text-sm font-medium text-cyan-600 hover:text-cyan-500 transition-colors"
                     >
                       Forgot password?
