@@ -13,9 +13,9 @@ import {
   AlertCircle
 } from "lucide-react";
 import axios from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter} from "next/navigation";
 
-const ResetPassword = () => {
+const ResetPassword = ({ token }) => {
   const [formData, setFormData] = useState({
     newPassword: "",
     confirmPassword: ""
@@ -29,8 +29,7 @@ const ResetPassword = () => {
   const [isLoading, setIsLoading] = useState(true);
   
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
+
 
   useEffect(() => {
     
