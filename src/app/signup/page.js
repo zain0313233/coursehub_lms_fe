@@ -98,11 +98,10 @@ const SignUp = () => {
       const data = response.data;
 
       if (response.status === 201) {
-        if (data.user.role === 'student') {
-          router.push('/dashbord/student');
-        } else if (data.user.role === 'teacher') {
-          router.push('/dashbord/instructer');
+        if(data.user.emailStatus==="unverified"){
+          alert('Check Your mail And confirm you mail to access dashbord')
         }
+        router.push('/login')
       }
       console.log("Success:", data);
       alert("Account created successfully!");
