@@ -250,7 +250,7 @@ const ResetPassword = () => {
                   </h3>
                   <ul className="text-sm text-cyan-700 text-left space-y-1">
                     <li>• Keep your password secure and confidential</li>
-                    <li>• Don't share your login credentials with anyone</li>
+                    <li>• Do not share your login credentials with anyone</li>
                     <li>• Consider using a password manager</li>
                     <li>• Sign out from public computers</li>
                   </ul>
@@ -300,7 +300,7 @@ const ResetPassword = () => {
                 </span>
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed">
-                You're almost done! Create a strong, secure password to protect 
+                You are almost done! Create a strong, secure password to protect 
                 your account and continue your learning journey.
               </p>
             </div>

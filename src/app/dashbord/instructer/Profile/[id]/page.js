@@ -142,7 +142,7 @@ const InstructorProfile = () => {
               Instructor Not Found
             </h2>
             <p className="text-gray-600">
-              The instructor profile you're looking for doesn't exist.
+              The instructor profile you are looking for does not exist.
             </p>
           </div>
         </div>
@@ -557,7 +557,7 @@ const InstructorProfile = () => {
                         No Content Available
                       </h3>
                       <p className="text-gray-500">
-                        This instructor hasn't published any courses or blogs
+                        This instructor has not published any courses or blogs
                         yet.
                       </p>
                     </div>

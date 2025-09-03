@@ -101,7 +101,7 @@ const ForgetPassword = () => {
                   Check Your Email
                 </h2>
                 <p className="text-gray-600 mb-4">
-                  We've sent a password reset link to:
+                  We have sent a password reset link to:
                 </p>
                 <p className="text-cyan-600 font-semibold text-lg bg-cyan-50 rounded-lg py-2 px-4">
                   {email}
@@ -112,7 +112,7 @@ const ForgetPassword = () => {
                 <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
                   <h3 className="font-semibold text-gray-900 mb-2 flex items-center">
                     <Shield className="w-4 h-4 mr-2 text-cyan-600" />
-                    What's next?
+                    What is next?
                   </h3>
                   <ul className="text-sm text-gray-600 space-y-1">
                     <li>• Check your email inbox (and spam folder)</li>
@@ -136,7 +136,7 @@ const ForgetPassword = () => {
                   onClick={() => setIsEmailSent(false)}
                   className="w-full text-cyan-600 font-medium py-2 hover:text-cyan-500 transition-colors text-sm"
                 >
-                  Didn't receive email? Try again
+                  Didn not receive email? Try again
                 </button>
               </div>
             </div>
@@ -189,8 +189,8 @@ const ForgetPassword = () => {
                 </span>
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed">
-                Don't worry, it happens to the best of us. Enter your email 
-                address and we'll send you a secure link to reset your password.
+                Don not worry, it happens to the best of us. Enter your email 
+                address and we windowll send you a secure link to reset your password.
               </p>
             </div>
 
@@ -232,7 +232,7 @@ const ForgetPassword = () => {
                     24/7 Support
                   </h4>
                   <p className="text-sm text-gray-600">
-                    We're here to help anytime
+                    We are here to help anytime
                   </p>
                 </div>
               </div>
@@ -266,7 +266,7 @@ const ForgetPassword = () => {
                   Forgot Password?
                 </h2>
                 <p className="text-gray-600">
-                  No worries! Enter your email and we'll send you reset instructions.
+                  No worries! Enter your email and we will send you reset instructions.
                 </p>
               </div>
 
