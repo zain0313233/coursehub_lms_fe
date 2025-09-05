@@ -28,7 +28,7 @@ const DemoVideoSection = () => {
 
       if (response.status === 200) {
         setInstructorData(response.data.userdata);
-        console.log("User data fetched:", response.data.userdata);
+        console.log("User vedio fetched:", response.data.userdata);
       }
     } catch (error) {
       console.error("Error fetching user data", error);

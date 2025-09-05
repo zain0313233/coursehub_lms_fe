@@ -8,7 +8,7 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useUser();
   const [formData, setFormData] = useState({
-    title: "",
+    videotitle: "",
     description: "",
     videoFile: null
   });
@@ -59,7 +59,7 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.title.trim()) newErrors.title = "Video title is required";
+    if (!formData.videotitle.trim()) newErrors.videotitle = "Videotitle is required";
     if (!formData.description.trim())
       newErrors.description = "Description is required";
     if (!formData.videoFile) newErrors.videoFile = "Please upload a video file";
@@ -77,7 +77,7 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
     try {
       const formDataToSend = new FormData();
       
-      formDataToSend.append("videotitle", formData.title); 
+      formDataToSend.append("videotitle", formData.videotitle); 
       formDataToSend.append("vediodescription", formData.description);  
       formDataToSend.append("video", formData.videoFile); 
 
@@ -127,7 +127,7 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
 
   const resetForm = () => {
     setFormData({
-      title: "",
+      videotitle: "",
       description: "",
       videoFile: null
     });
@@ -244,15 +244,15 @@ export default function AddDemoVideoPopup({ onRecordAdded }) {
                     <input
                       type="text"
                       name="title"
-                      value={formData.title}
+                      value={formData.videotitle}
                       onChange={handleInputChange}
                       disabled={loading}
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-cyan-500 focus:ring-0 transition-colors disabled:bg-gray-100 disabled:cursor-not-allowed"
                       placeholder="e.g., Introduction to React Hooks - Teaching Demo"
                     />
-                    {errors.title && (
+                    {errors.videotitle && (
                       <p className="text-red-500 text-sm mt-1">
-                        {errors.title}
+                        {errors.videotitle}
                       </p>
                     )}
                   </div>
