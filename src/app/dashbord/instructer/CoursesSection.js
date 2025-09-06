@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { Plus, Users, Star } from 'lucide-react';
+import {useRouter} from 'next/navigation';
 
 import axios from "axios";
 import { useUser } from "@/context/UserContext";
@@ -10,6 +11,7 @@ const CoursesSection = forwardRef((props, ref) => {
   const [loading, setLoading] = useState(false);
   const [courses, setCourses] = useState([]);
   const [error, setError] = useState(null);
+  const router = useRouter();
 
   const fetchCourses = async () => {
     if (!user?.id) return;
@@ -25,6 +27,7 @@ const CoursesSection = forwardRef((props, ref) => {
       
       if (courseResponse.status === 200 && courseResponse.data.success) {
         setCourses(courseResponse.data.data.courses);
+        console.log(courseResponse.data.data.courses);
       }
     } catch (error) {
       console.error('Error fetching courses:', error);
@@ -42,6 +45,9 @@ const CoursesSection = forwardRef((props, ref) => {
     fetchCourses();
   }, [user?.id]);
 
+  const handleViewProfile = (courseid) => {
+    router.push(`/course/${courseid}`);
+  };
   if (loading) {
     return (
       <div className="mb-12">
@@ -149,7 +155,7 @@ const CoursesSection = forwardRef((props, ref) => {
                   <button className="flex-1 bg-cyan-600 text-white py-2 px-3 rounded-lg hover:bg-cyan-700 transition text-sm font-medium">
                     Edit
                   </button>
-                  <button className="flex-1 bg-gray-100 text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-200 transition text-sm font-medium">
+                  <button onClick={()=>{handleViewProfile(course._id)}} className="flex-1 bg-gray-100 text-gray-700 py-2 px-3 rounded-lg hover:bg-gray-200 transition text-sm font-medium">
                     View
                   </button>
                   <button className="bg-red-100 text-red-600 py-2 px-3 rounded-lg hover:bg-red-200 transition text-sm font-medium">
